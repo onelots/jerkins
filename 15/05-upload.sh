@@ -20,6 +20,6 @@ initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
 # Upload found images
 for image in $initial_images; do
     echo "Uploading $image..."
-    rclone copy out/target/product/$device/$image.img b2:evo-downloads/$device/$version/$image/
+    # Nothing for now, gotta see if it works first...
     echo " "
 done
