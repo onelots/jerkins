@@ -39,5 +39,5 @@ for image in $initial_images; do
     echo " "
 done
 
-echo "https://evox.onelots.fr/testers/?path=${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
+echo "https://evox.onelots.fr/testers?path=${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
 
