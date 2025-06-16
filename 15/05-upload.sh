@@ -37,3 +37,6 @@ for image in $initial_images; do
     scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/$image.img ${user}@${host}:/${build_date_path}
     echo " "
 done
+
+echo "https://evox.onelots.fr/testers/?path=${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
+
