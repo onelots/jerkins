@@ -1,10 +1,8 @@
 #!/bin/bash
 
-repo_args="$@"
-
-export CCACHE_MAXSIZE=50G
-
-echo "$repo_args"
+device=$1
+target=$(tail -n 1 vendor/lineage/vars/aosp_target_release | cut -d "=" -f 2)
 
 source build/envsetup.sh &&
-repo sync "$repo_args"
+lunch lineage_$device-$target-userdebug &&
+repo sync "${@:2}"
