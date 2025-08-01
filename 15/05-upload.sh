@@ -23,6 +23,12 @@ ssh -o StrictHostKeyChecking=no -i ${private_key} ${user}@${host} "[ -d ${build_
 # Upload main rom
 echo "Uploading main rom..."
 scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/EvolutionX*.zip ${user}@${host}:/${build_date_path}
+
+# Upload sha256sum file
+scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/EvolutionX*.zip.sha256sum ${user}@${host}:/${build_date_path}
+
+# Upload Json
+scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/$device.json ${user}@${host}:/root/Testers/jsons
                  
 echo " "
 
