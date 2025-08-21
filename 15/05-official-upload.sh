@@ -15,20 +15,12 @@ build_date=$(echo $filename | cut -d "-" -f 3)
 evo_version=$(echo $filename | cut -d "-" -f 5)
 evo_version_official=${evo_version}"-Official" 
 
-# Check if folder exists
-# Build_date's path (example : /root/EvolutionX/Polaris/15/10.7/20250515/)
-build_date_path=("/root/EvolutionX/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}")
-ssh -o StrictHostKeyChecking=no -i ${private_key} ${user}@${host} "[ -d ${build_date_path} ] && echo 'exists' || mkdir -p  ${build_date_path}"
-
 # Upload main rom
 echo "Uploading main rom..."
-scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/EvolutionX*.zip ${user}@${host}:/${build_date_path}
+rclone copy out/target/product/$device/EvolutionX*.zip cloudflare-onelots:evolution-x/downloads/${device_capitalized}/${android_version}/${evo_version_official}/${build_date} -P
 
 # Upload sha256sum file
-scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/EvolutionX*.zip.sha256sum ${user}@${host}:/${build_date_path}
-
-# Upload Json
-scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/$device.json ${user}@${host}:/root/Testers/jsons
+rclone copy out/target/product/$device/EvolutionX*.zip.sha256sum cloudflare-onelots:evolution-x/downloads/${device_capitalized}/${android_version}/${evo_version_official}/${build_date} -P
                  
 echo " "
 
@@ -41,7 +33,7 @@ initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
 # Upload found images
 for image in $initial_images; do
     echo "Uploading $image..."
-    scp -o StrictHostKeyChecking=no -i ${private_key} out/target/product/$device/$image.img ${user}@${host}:/${build_date_path}
+    rclone copy out/target/product/$device/$image.img cloudflare-onelots:evolution-x/downloads/${device_capitalized}/${android_version}/${evo_version_official}/${build_date} -P
     echo " "
 done
 
@@ -53,11 +45,11 @@ echo "https://evox.onelots.fr/downloads?path=${device_capitalized}/${android_ver
 
 # Upload main rom
 echo "Uploading main rom..."
-rclone copy out/target/product/$device/EvolutionX*.zip cloudflare:evo-downloads/$device/$date/ -P
+rclone copy out/target/product/$device/EvolutionX*.zip cloudflare-evo:evo-downloads/$device/$date/ -P
 
 # Upload found images
 for image in $initial_images; do
     echo "Uploading $image..."
-    rclone copy out/target/product/$device/$image*.img cloudflare:evo-downloads/$device/$date/$image/ -P
+    rclone copy out/target/product/$device/$image*.img cloudflare-evo:evo-downloads/$device/$date/$image/ -P
     echo " "
 done
