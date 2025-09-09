@@ -59,15 +59,15 @@ build_description() {
   local lines=()
 
   if [[ -n "$BUILD_URL" && $(is_url "$BUILD_URL" && echo ok) == "ok" ]]; then
-    lines+=(" 🔽 • Download: [Build]($BUILD_URL)")
+    lines+=("• 🔽 Download: [Build]($BUILD_URL)")
   fi
   if [[ -n "$JSON_URL" && $(is_url "$JSON_URL" && echo ok) == "ok" ]]; then
-    lines+=(" 🧾 • Json: [Artifact]($JSON_URL)")
+    lines+=("• 🧾 Json: [Artifact]($JSON_URL)")
   fi
   if [[ -n "$TXT_URL" && $(is_url "$TXT_URL" && echo ok) == "ok" ]]; then
-    lines+=(" 📄 • Changelog: [TXT file]($TXT_URL)")
+    lines+=("• 📄 Changelog: [TXT file]($TXT_URL)")
   fi
-  lines+=(" 📄 • logs : [logs link](https://build.onelots.fr/job/10.X%20-%20A15%20-%20Testing/job/${DEVICE}/lastBuild/console)")
+  lines+=("• 🗂️ logs : [logs link](https://build.onelots.fr/job/10.X%20-%20A15%20-%20Testing/job/${DEVICE}/lastBuild/console)")
 
   if [[ ${#lines[@]} -gt 0 ]]; then
     lines+=(" ")
