@@ -228,7 +228,7 @@ while [[ $# -gt 0 ]]; do
     --webhook-url)   WEBHOOK_URL="$2"; shift 2 ;;
     --status)        STATUS="$2"; shift 2 ;;
     --device)        DEVICE="$2"; shift 2 ;;
-    -T| --t)         TIME="${2:-0}"; shift 2 ;;
+    -T| --time)      TIME="${2:-0}"; shift 2 ;;
     --starter)       STARTER="$2"; shift 2 ;;
     --rom-version)   ROM_VERSION="$2"; shift 2 ;;
     --build-format)  BUILD_FORMAT="$2"; shift 2 ;;
