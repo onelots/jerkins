@@ -16,7 +16,6 @@ COLOR_INFO=3447003
 WEBHOOK_URL=""
 STATUS="info"
 DEVICE=""
-TIME="none"
 STARTER=""
 ROM_VERSION=""
 BUILD_FORMAT=""
@@ -45,6 +44,22 @@ Notes:
   - --dry-run prints a json payload without sending it.
 USAGE
 }
+
+# -------------------------------------------------
+# Getting the time it took to build
+# -------------------------------------------------
+
+NOW=$(date +%s)
+START=$(cat /tmp/timestamp 2>/dev/null || echo "$NOW")
+ELAPSED=$((NOW-START))
+[ "$ELAPSED" -lt 0 ] && ELAPSED=0
+
+H=$((ELAPSED/3600))
+M=$(((ELAPSED%3600)/60))
+S=$((ELAPSED%60))
+
+echo "Duration of the build: $HHMMSS (HH:MM:SS) | $MMSS (mm:ss)"
+
 
 is_url() {
   case "$1" in
@@ -75,10 +90,16 @@ build_description() {
   fi
 
   [[ -n "$DEVICE"      ]] && lines+=("• 📱 Device: \`$DEVICE\`")
-  if ! [ -z "$TIME" ]; then
-    local tt="$TIME"
-    lines+=("• ⏱️ Time elapsed : ${tt} ")
+  H=${H:-0}; M=${M:-0}; S=${S:-0}
+
+  if (( H == 0 && M == 0 )); then
+    lines+=( "• ⏱️ Time elapsed : **${S}** seconds" )
+  elif (( H == 0 )); then
+    lines+=( "• ⏱️ Time elapsed : **${M}** minutes and **${S}** seconds" )
+  else
+    lines+=( "• ⏱️ Time elapsed : **${H}** hours, **${M}** minutes and **${S}** seconds." )
   fi
+
   [[ -n "$ROM_VERSION" ]] && lines+=("• 📦 EvolutionX version: \`$ROM_VERSION\`")
   [[ -n "$BUILD_FORMAT" ]] && lines+=("• 🧹 Format: \`$BUILD_FORMAT\`")
   [[ -n "$BUILD_TYPE"  ]] && lines+=("• 🧑‍💻 Type: \`$BUILD_TYPE\`")
