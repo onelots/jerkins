@@ -95,13 +95,13 @@ pipeline {
                         else
                             EVO_VERSION="unknown"
                         fi
-
+                        
                         /media/sauces/scripts/15/05-webhook.sh \
                         --webhook-url "$DISCORD_WEBHOOK" \
                         --status success \
                         --device "$JOB_BASE_NAME" \
-                        --minutes "$BUILD_MINUTES" \
-                        --seconds "$BUILD_SECONDS" \
+                        --minutes "**$BUILD_MINUTES**" \
+                        --seconds "**$BUILD_SECONDS**" \
                         --starter "Onelots" \
                         --username "EvolutionX Jenkins - Vic" \
                         --rom-version "$EVO_VERSION" \
