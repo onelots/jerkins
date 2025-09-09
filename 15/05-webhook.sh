@@ -58,9 +58,6 @@ H=$((ELAPSED/3600))
 M=$(((ELAPSED%3600)/60))
 S=$((ELAPSED%60))
 
-echo "Duration of the build: $HHMMSS (HH:MM:SS) | $MMSS (mm:ss)"
-
-
 is_url() {
   case "$1" in
     http://*|https://*) return 0 ;;
@@ -114,7 +111,7 @@ build_payload() {
   status_lc="$(lc "$STATUS")"
 
   case "$status_lc" in
-    success|ok|SUCCESS)         title=" Build Succesful ✅";   color=$COLOR_SUCCESS ;;
+    success|ok|SUCCESS)         title=" Build Successful ✅";   color=$COLOR_SUCCESS ;;
     failure|fail|error|failed|FAIL) title=" Build failed ❌";   color=$COLOR_FAILURE ;;
     warning|unstable)   title="⚠️ Build unstable"; color=$COLOR_WARNING ;;
     *)                  title="ℹ️ Build";         color=$COLOR_INFO ;;
