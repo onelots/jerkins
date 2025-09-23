@@ -10,6 +10,9 @@ private_key=$4
 # Extract Android Version from json
 filename=$(echo out/target/product/$device/EvolutionX-*.zip)
 
+# Extract date (meh how can I use $date without even defining it)
+date=$(echo $filename | cut -d "-" -f 3 | cut -d "." -f 1)
+
 android_version=$(echo "$filename" | cut -d "-" -f 2 | cut -d "." -f 1)
 build_date=$(echo $filename | cut -d "-" -f 3)
 evo_version=$(echo $filename | cut -d "-" -f 5)
