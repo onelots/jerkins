@@ -10,12 +10,9 @@ pipeline {
             steps {
                 dir('/media/sauces/evo10') {
                     sh '''
-                    /media/sauces/scripts/15/03-reposync.sh \
                     ${JOB_BASE_NAME} \
-                    device/ OEM /${JOB_BASE_NAME} \
-                    vendor/ OEM /${JOB_BASE_NAME} \
-                    kernel/ OEM /${JOB_BASE_NAME} \
-                    hardware/ OEM
+                    device/OEM/${JOB_BASE_NAME} \
+                    vendor/OEM/${JOB_BASE_NAME} \
                     '''
                 }
             }
@@ -100,8 +97,7 @@ pipeline {
                         --webhook-url "$DISCORD_WEBHOOK" \
                         --status success \
                         --device "$JOB_BASE_NAME" \
-                        --minutes "**$BUILD_MINUTES**" \
-                        --seconds "**$BUILD_SECONDS**" \
+                        --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
                         --username "EvolutionX Jenkins - Vic" \
                         --rom-version "$EVO_VERSION" \
@@ -131,8 +127,7 @@ pipeline {
                         --webhook-url "$DISCORD_WEBHOOK" \
                         --status failure \
                         --device "$JOB_BASE_NAME" \
-                        --minutes "$BUILD_MINUTES" \
-                        --seconds "$BUILD_SECONDS" \
+                        --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
                         --username "EvolutionX Jenkins - Vic" \
                         --rom-version "$EVO_VERSION" \
