@@ -1,3 +1,9 @@
+def folderName = '10.X - A15 - Testing'
+def folderParts = []
+def evoVersion = ''
+def buildType = ''
+def sourceDir = ''
+
 pipeline {
     agent any
 
@@ -6,43 +12,54 @@ pipeline {
     }
 
     stages {
+        stage('Get Folder Name & Define Base Paths') {
+            steps {
+                script {
+                    folderName = pwd().split('/')[-2]
+
+                    folderParts = folderName.split(' - ')
+
+                    evoVersion = folderParts[0].split('\\.')[0]
+                    buildType = folderParts[2].toLowerCase()
+
+                    echo "Parent Folder : ${folderName}"
+                    echo "Evo Version   : ${evoVersion}"
+                    echo "Build Type    : ${buildType}"
+
+                    sourceDir = "/media/sauces/evo${evoVersion}"
+                }
+            }
+        }
         stage('Sync device trees') {
             steps {
-                dir('/media/sauces/evo10') {
+                dir(sourceDir) {
                     sh '''
-                    ${JOB_BASE_NAME} \
-                    device/OEM/${JOB_BASE_NAME} \
-                    vendor/OEM/${JOB_BASE_NAME} \
+                    /media/sauces/scripts/shell/sync-device.sh ${JOB_BASE_NAME}
                     '''
                 }
             }
         }
         stage('Build ROM') {
             steps {
-                dir('/media/sauces/evo10') {
+                dir(sourceDir) {
                     sh '''
-                    /media/sauces/scripts/15/04-build.sh ${JOB_BASE_NAME}
+                    /media/sauces/scripts/shell/build.sh ${JOB_BASE_NAME}
                     '''
                     script {
                         def artifactPath1 = "out/target/product/${JOB_BASE_NAME}/${JOB_BASE_NAME}.json"
                         def artifactPath2 = "evolution/OTA/changelogs/${JOB_BASE_NAME}.txt"
                         
-                        archiveArtifacts artifacts: "${artifactPath1},${artifactPath2}", allowEmptyArchive: true                    }
+                        archiveArtifacts artifacts: "${artifactPath1},${artifactPath2}", allowEmptyArchive: true                    
+                    }
                 }
             }
         }
         stage('Upload Artifacts') {
             steps {
-                dir('/media/sauces/evo10') {
-                    withCredentials([
-                        sshUserPrivateKey(credentialsId: 'mirror_key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER'),
-                        string(credentialsId: 'mirror_user', variable: 'MIRROR_USER'),
-                        string(credentialsId: 'mirror_host', variable: 'MIRROR_HOST')
-                    ]) {
+                dir(sourceDir) {
                     sh '''
-                    /media/sauces/scripts/15/05-upload.sh ${JOB_BASE_NAME} ${MIRROR_USER} ${MIRROR_HOST} ${SSH_KEY}
+                    /media/sauces/scripts/shell/upload.sh ${JOB_BASE_NAME} ${MIRROR_USER} ${MIRROR_HOST} ${SSH_KEY} ${buildType}
                     '''
-                    
                     script {
                         if (fileExists('/tmp/upload_link.txt')) {
                             def uploadLink = readFile('/tmp/upload_link.txt').trim()
@@ -81,65 +98,67 @@ pipeline {
         }
 
         success {
-            dir('/media/sauces/evo10') {
-                withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD_WEBHOOK')]) {
-                    sh '''
-                        EVO_FILE=$(ls -t out/target/product/"$JOB_BASE_NAME"/EvolutionX-*.zip 2>/dev/null | head -n1 || true)
-                        if [ -n "$EVO_FILE" ]; then
-                            EVO_BASENAME=$(basename "$EVO_FILE")
-                            # L’ancienne logique coupait au "-" et prenait le 5e champ
-                            EVO_VERSION=$(echo "$EVO_BASENAME" | cut -d "-" -f 5)
+            dir(sourceDir) {
+                withCredentials([
+                    string(credentialsId: 'discord-webhook',        variable: 'DISCORD_WEBHOOK'),
+                    string(credentialsId: 'webhook-evo',         variable: 'EVO_DISCORD_WEBHOOK')
+                        ]) {
+                    withEnv(["BUILD_TYPE=${buildType}"]) {
+                        sh '''
+                        if ${buildType} == "release"; then
+                            WEBHOOK="$EVO_DISCORD_WEBHOOK"
                         else
-                            EVO_VERSION="unknown"
+                            WEBHOOK="$DISCORD_WEBHOOK"
                         fi
-                        
-                        /media/sauces/scripts/15/05-webhook.sh \
-                        --webhook-url "$DISCORD_WEBHOOK" \
+
+                        /media/sauces/scripts/15/webhook.sh \
+                        --webhook-url "$WEBHOOK" \
                         --status success \
                         --device "$JOB_BASE_NAME" \
                         --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
-                        --username "EvolutionX Jenkins - Vic" \
-                        --rom-version "$EVO_VERSION" \
+                        --username "EvolutionX Jenkins - Vic - $BUILD_TYPE" \
                         --build-format "installclean" \
                         --build-type "userdebug" \
-                        --node "BORD-ONE-FR" \
                         --build-url "$UPLOAD_LINK" \
                         --txt-url "$TXTURL" \
                         --json-url "$JSONURL"
                     '''
+                    }
                 }
             }
         }
 
         failure {
-            dir('/media/sauces/evo10') {
-                withCredentials([string(credentialsId: 'discord-webhook', variable: 'DISCORD_WEBHOOK')]) {
-                    sh '''
-                        EVO_FILE=$(ls -t out/target/product/"$JOB_BASE_NAME"/EvolutionX-*.zip 2>/dev/null | head -n1 || true)
-                        if [ -n "$EVO_FILE" ]; then
-                            EVO_VERSION=$(basename "$EVO_FILE" | cut -d "-" -f 5)
+            dir(sourceDir) {
+                withCredentials([
+                    string(credentialsId: 'discord-webhook',        variable: 'DISCORD_WEBHOOK'),
+                    string(credentialsId: 'webhook-evo',         variable: 'EVO_DISCORD_WEBHOOK')
+                        ]) {
+                    withEnv(["BUILD_TYPE=${buildType}"]) {
+                        sh '''
+                        if [ "$BUILD_TYPE" = "release" ]; then
+                            WEBHOOK="$EVO_DISCORD_WEBHOOK"
                         else
-                            EVO_VERSION="unknown"
+                            WEBHOOK="$DISCORD_WEBHOOK"
                         fi
 
-                        /media/sauces/scripts/15/05-webhook.sh \
-                        --webhook-url "$DISCORD_WEBHOOK" \
-                        --status failure \
+                        /media/sauces/scripts/15/webhook.sh \
+                        --webhook-url "$WEBHOOK" \
+                        --status failed \
                         --device "$JOB_BASE_NAME" \
                         --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
-                        --username "EvolutionX Jenkins - Vic" \
-                        --rom-version "$EVO_VERSION" \
+                        --username "EvolutionX Jenkins - Vic - $BUILD_TYPE" \
                         --build-format "installclean" \
                         --build-type "userdebug" \
-                        --node "BORD-ONE-FR" \
                         --build-url "$UPLOAD_LINK" \
                         --txt-url "$TXTURL" \
                         --json-url "$JSONURL"
                     '''
+                    
+                    }
                 }
             }
         }
     }
-}

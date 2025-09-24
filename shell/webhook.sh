@@ -26,6 +26,7 @@ TXT_URL=""
 VERBOSE=0
 DRY_RUN=0
 
+
 if [ $(hostname) = "bigboi" ];then
   NODE="bdx-eu-bigboi"
 else if [ $(hostname) = "hugeboi" ];then
@@ -104,7 +105,9 @@ build_description() {
     lines+=( "• ⏱️ Time elapsed : **${H}** hours, **${M}** minutes and **${S}** seconds." )
   fi
 
-  [[ -n "$ROM_VERSION" ]] && lines+=("• 📦 EvolutionX version: \`$ROM_VERSION\`")
+  filename=$(echo out/target/product/$DEVICE/EvolutionX-*.zip)
+  ROM_VERSION=$(echo $filename | cut -d "-" -f 5)
+  lines+=("• 📦 EvolutionX version: \`$ROM_VERSION\`")
   [[ -n "$BUILD_FORMAT" ]] && lines+=("• 🧹 Format: \`$BUILD_FORMAT\`")
   [[ -n "$BUILD_TYPE"  ]] && lines+=("• 🧑‍💻 Type: \`$BUILD_TYPE\`")
   [[ -n "$NODE"        ]] && lines+=("• 🖥️ Node: \`$NODE\`")
