@@ -20,12 +20,19 @@ STARTER=""
 ROM_VERSION=""
 BUILD_FORMAT=""
 BUILD_TYPE=""
-NODE=""
 BUILD_URL=""
 JSON_URL=""
 TXT_URL=""
 VERBOSE=0
 DRY_RUN=0
+
+if [ $(hostname) = "bigboi" ];then
+  NODE="bdx-eu-bigboi"
+else if [ $(hostname) = "hugeboi" ];then
+  NODE="bdx-eu-hugeboi"
+else
+  NODE=""
+fi fi
 
 # ---------------------------
 # Helpers
@@ -79,7 +86,7 @@ build_description() {
   if [[ -n "$TXT_URL" && $(is_url "$TXT_URL" && echo ok) == "ok" ]]; then
     lines+=("• 📄 Changelog: [TXT file]($TXT_URL)")
   fi
-  lines+=("• 🗂️ logs : [logs link](https://build.onelots.fr/job/10.X%20-%20A15%20-%20Testing/job/${DEVICE}/lastBuild/console)")
+    lines+=("• 🗂️ logs : [logs link](https://$NODE.onelots.fr/job/10.X%20-%20A15%20-%20Testing/job/${DEVICE}/lastBuild/console)")
 
   if [[ ${#lines[@]} -gt 0 ]]; then
     lines+=(" ")
