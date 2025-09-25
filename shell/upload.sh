@@ -28,7 +28,7 @@ evo_version_official=${evo_version}"-Official"
 # | EVOLUTIONX OFFICIAL RELEASE.                             |
 # |----------------------------------------------------------|
 
-if [ $buildType = "release" ]; then
+if [ "$buildType" = "release" ]; then
 
     upload_path="evolution-x/downloads/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}"
 
@@ -64,11 +64,10 @@ if [ $buildType = "release" ]; then
         rclone copy out/target/product/$device/$image*.img cloudflare-evo:evo-downloads/$device/$date/$image/ -P
         echo " "
     done
-fi
 
 # |-------------------------------------------------------------------------------------------------------------------------------------|
 
-elif [ $buildType = "testing" ]; then
+elif [ "$buildType" = "testing" ]; then
     testers_path="evolution-x/testers/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}"
     # Upload main rom
     echo "Uploading main rom..."
