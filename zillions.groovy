@@ -114,7 +114,7 @@ pipeline {
                             WEBHOOK="$DISCORD_WEBHOOK"
                         fi
 
-                        /media/sauces/scripts/15/webhook.sh \
+                        /media/sauces/scripts/shell/webhook.sh \
                         --webhook-url "$WEBHOOK" \
                         --status success \
                         --device "$JOB_BASE_NAME" \
@@ -146,7 +146,7 @@ pipeline {
                             WEBHOOK="$DISCORD_WEBHOOK"
                         fi
 
-                        /media/sauces/scripts/15/webhook.sh \
+                        /media/sauces/scripts/shell/webhook.sh \
                         --webhook-url "$WEBHOOK" \
                         --status failed \
                         --device "$JOB_BASE_NAME" \
