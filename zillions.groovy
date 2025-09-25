@@ -58,7 +58,7 @@ pipeline {
             steps {
                 dir(sourceDir) {
                     sh '''
-                    /media/sauces/scripts/shell/upload.sh ${JOB_BASE_NAME} ${MIRROR_USER} ${MIRROR_HOST} ${SSH_KEY} ${buildType}
+                    /media/sauces/scripts/shell/upload.sh ${JOB_BASE_NAME} ${buildType}
                     '''
                     script {
                         if (fileExists('/tmp/upload_link.txt')) {
@@ -161,3 +161,4 @@ pipeline {
             }
         }
     }
+}

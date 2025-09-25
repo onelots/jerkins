@@ -6,10 +6,7 @@
 
 device=$1
 device_capitalized=$(echo $device | sed -E 's/(^|_)([a-z])/\1\u\2/g')
-user=$2
-host=$3
-private_key=$4
-buildType=$5
+buildType=$2
 
 # Extract Android Version from json
 filename=$(echo out/target/product/$device/EvolutionX-*.zip)
