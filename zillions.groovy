@@ -57,9 +57,13 @@ pipeline {
         stage('Upload Artifacts') {
             steps {
                 dir(sourceDir) {
-                    sh '''
-                    /media/sauces/scripts/shell/upload.sh ${JOB_BASE_NAME} ${buildType}
-                    '''
+                    withEnv(["BUILD_TYPE=${buildType}"]) {
+                        sh '''
+                            set -e
+                            rm -f /tmp/upload_link.txt
+                            /media/sauces/scripts/shell/upload.sh "$JOB_BASE_NAME" "$BUILD_TYPE"
+                            '''
+                        }
                     script {
                         if (fileExists('/tmp/upload_link.txt')) {
                             def uploadLink = readFile('/tmp/upload_link.txt').trim()
