@@ -26,14 +26,14 @@ TXT_URL=""
 VERBOSE=0
 DRY_RUN=0
 
-
-if [ $(hostname) = "bigboi" ];then
+HOST="$(hostname -s 2>/dev/null || hostname)"
+if [ "$HOST" = "bigboi" ]; then
   NODE="bdx-eu-bigboi"
-else if [ $(hostname) = "hugeboi" ];then
+elif [ "$HOST" = "hugeboi" ]; then
   NODE="bdx-eu-hugeboi"
 else
   NODE=""
-fi fi
+fi
 
 # ---------------------------
 # Helpers
@@ -43,7 +43,7 @@ usage() {
 Usage:
   ./05-webhook.sh --webhook-url URL --status <success|failure|warning|info> \
     --device DEVICE [--time T] \
-    [--starter NAME] [--rom-version V] [--build-format F] [--build-type T] [--node N] \
+    [--starter NAME] [--rom-version V] [--build-format F] [--build-type T] \
     [--build-url URL] [--json-url URL] [--txt-url URL] [--username NAME] \
     [--avatar-url URL] [--footer-icon URL] [--verbose] [--dry-run]
 
@@ -87,7 +87,9 @@ build_description() {
   if [[ -n "$TXT_URL" && $(is_url "$TXT_URL" && echo ok) == "ok" ]]; then
     lines+=("• 📄 Changelog: [TXT file]($TXT_URL)")
   fi
+  if [[ -n "$NODE" ]]; then
     lines+=("• 🗂️ logs : [logs link](https://$NODE.onelots.fr/job/10.X%20-%20A15%20-%20Testing/job/${DEVICE}/lastBuild/console)")
+  fi
 
   if [[ ${#lines[@]} -gt 0 ]]; then
     lines+=(" ")
@@ -262,7 +264,6 @@ while [[ $# -gt 0 ]]; do
     --rom-version)   ROM_VERSION="$2"; shift 2 ;;
     --build-format)  BUILD_FORMAT="$2"; shift 2 ;;
     --build-type)    BUILD_TYPE="$2"; shift 2 ;;
-    --node)          NODE="$2"; shift 2 ;;
     --build-url)     BUILD_URL="$2"; shift 2 ;;
     --json-url)      JSON_URL="$2"; shift 2 ;;
     --txt-url)       TXT_URL="$2"; shift 2 ;;
@@ -281,10 +282,6 @@ if [[ -z "$WEBHOOK_URL" ]]; then
 fi
 if ! is_url "$WEBHOOK_URL"; then
   echo "Erreur: --webhook-url needs to start by https"; exit 1
-fi
-
-if [[ -n "$STARTER" ]]; then
-  FOOTER_TEXT="$FOOTER_TEXT $STARTER"
 fi
 
 send_webhook
