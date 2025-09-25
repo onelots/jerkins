@@ -68,7 +68,6 @@ pipeline {
                         } else {
                             echo "File /tmp/upload_link.txt doesn't exist."
                             currentBuild.result = 'FAILURE'
-                            }
                         }
                     }
                 }
@@ -105,7 +104,7 @@ pipeline {
                         ]) {
                     withEnv(["BUILD_TYPE=${buildType}"]) {
                         sh '''
-                        if ${buildType} == "release"; then
+                        if [ "$BUILD_TYPE" = "release" ]; then
                             WEBHOOK="$EVO_DISCORD_WEBHOOK"
                         else
                             WEBHOOK="$DISCORD_WEBHOOK"
