@@ -120,7 +120,6 @@ pipeline {
                         --device "$JOB_BASE_NAME" \
                         --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
-                        --username "EvolutionX Jenkins - Vic - $BUILD_TYPE" \
                         --build-format "installclean" \
                         --build-type "userdebug" \
                         --build-url "$UPLOAD_LINK" \
@@ -152,7 +151,6 @@ pipeline {
                         --device "$JOB_BASE_NAME" \
                         --time "**$BUILD_MINUTES** minutes and **$BUILD_SECONDS** seconds" \
                         --starter "Onelots" \
-                        --username "EvolutionX Jenkins - Vic - $BUILD_TYPE" \
                         --build-format "installclean" \
                         --build-type "userdebug" \
                         --build-url "$UPLOAD_LINK" \

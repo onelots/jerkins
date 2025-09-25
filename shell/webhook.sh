@@ -4,7 +4,6 @@ set -euo pipefail
 # ---------------------------
 # Defaults
 # ---------------------------
-USERNAME="EvolutionX's Jenkins"
 AVATAR_URL="https://images.seeklogo.com/logo-png/27/1/jenkins-logo-png_seeklogo-273560.png"
 FOOTER_ICON="https://styles.redditmedia.com/t5_2385xr/styles/communityIcon_f066t3qkm4c71.png"
 FOOTER_TEXT="Build launched by"
@@ -44,7 +43,7 @@ Usage:
   ./05-webhook.sh --webhook-url URL --status <success|failure|warning|info> \
     --device DEVICE [--time T] \
     [--starter NAME] [--rom-version V] [--build-format F] [--build-type T] \
-    [--build-url URL] [--json-url URL] [--txt-url URL] [--username NAME] \
+    [--build-url URL] [--json-url URL] [--txt-url URL] \ 
     [--avatar-url URL] [--footer-icon URL] [--verbose] [--dry-run]
 
 Notes:
@@ -283,5 +282,29 @@ fi
 if ! is_url "$WEBHOOK_URL"; then
   echo "Erreur: --webhook-url needs to start by https"; exit 1
 fi
+
+if [[ -z "${ROM_VERSION:-}" || -z "${EVO_VERSION:-}" ]]; then
+  shopt -s nullglob
+  files=(out/target/product/"$DEVICE"/EvolutionX-*.zip)
+  shopt -u nullglob
+  if (( ${#files[@]} > 0 )); then
+    evo_file="$(ls -t "${files[@]}" 2>/dev/null | head -n1 || true)"
+    fname="$(basename "$evo_file")"
+    EVO_VERSION="$(cut -d '-' -f 5 <<< "$fname")"
+    ROM_VERSION="${ROM_VERSION:-$EVO_VERSION}"
+  else
+    EVO_VERSION="${EVO_VERSION:-unknown}"
+    ROM_VERSION="${ROM_VERSION:-unknown}"
+  fi
+fi
+
+if [[ -z "${USERNAME:-}" ]]; then
+  case "$EVO_VERSION" in
+    10.*) USERNAME="EvolutionX Jenkins - Vic - ${BUILD_TYPE:-unknown}" ;;
+    11.*) USERNAME="EvolutionX Jenkins - Bka - ${BUILD_TYPE:-unknown}" ;;
+    *)    USERNAME="${USERNAME:-EvolutionX Jenkins - ${BUILD_TYPE:-unknown}}" ;;
+  esac
+fi
+
 
 send_webhook
