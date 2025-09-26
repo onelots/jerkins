@@ -1,4 +1,4 @@
-def folderName = '10.X - A15 - Testing'
+def folderName = ''
 def folderParts = []
 def evoVersion = ''
 def buildType = ''
