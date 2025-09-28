@@ -58,7 +58,7 @@ if [ "$buildType" = "release" ]; then
     # Upload found images
     for image in $initial_images; do
         echo "Uploading $image..."
-        rclone copy out/target/product/$device/$image*.img cloudflare-evo:evo-downloads/$device/$android_version/$image/ -P
+        rclone copy out/target/product/$device/$image.img cloudflare-evo:evo-downloads/$device/$android_version/$image/ -P
         echo " "
     done
 
