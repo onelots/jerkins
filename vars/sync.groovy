@@ -1,5 +1,9 @@
 def call(Map config = [:]) {
     
+    def folderName = ''
+    def folderParts = []
+    def evoVersion = ''
+    
     pipeline {
     agent any
 
