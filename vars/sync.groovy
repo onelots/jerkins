@@ -3,7 +3,7 @@ def call(Map config = [:]) {
     def folderName = ''
     def folderParts = []
     def evoVersion = ''
-    
+
     pipeline {
     agent any
 
@@ -24,9 +24,9 @@ def call(Map config = [:]) {
             }
         }
 
-        stage('Initialize EvolutionX 10.X') {
+        stage('Initialize EvolutionX') {
             steps {
-                dir('/media/sauces/evo10') {
+                dir('/media/sauces/evo' + evoVersion) {
                     withEnv(["evoVersion=${evoVersion}"]) {
                         sh '''
                         /media/sauces/scripts/shell/init.sh ${evoVersion}
