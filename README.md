@@ -7,10 +7,11 @@ This has been created for use with Evolution X Jenkins Server, however can be ea
 ---
 
 To get started:
- - Clone this repository into a globally accessible location (e.g. /scripts)
+ - Clone this repository into a globally accessible location (e.g. /media/sauces/scripts)
  - Set the Jenkins step to run a shell calling the script
 
-I've included an [example pipeline](example-pipeline.txt) to show how this can be used.
+I've included an [example pipeline](vars/zillions.groovy) to show how this can be used.
+Actually, this example is the one I use in prod.
 
 You can see how we upload our builds to an S3-Compatible Bucket for increased worldwide download speeds.
 
