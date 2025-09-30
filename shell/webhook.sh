@@ -108,6 +108,11 @@ build_description() {
 
   filename=$(echo out/target/product/$DEVICE/EvolutionX-*.zip)
   ROM_VERSION=$(echo $filename | cut -d "-" -f 5)
+  if [ "$ROM_VERSION" = "" ]; then
+  ROM_VERSION="unknown"
+  else 
+  ROM_VERSION="${ROM_VERSION}"
+  fi
   lines+=("• 📦 EvolutionX version: \`$ROM_VERSION\`")
   [[ -n "$BUILD_FORMAT" ]] && lines+=("• 🧹 Format: \`$BUILD_FORMAT\`")
   [[ -n "$BUILD_TYPE"  ]] && lines+=("• 🧑‍💻 Type: \`$BUILD_TYPE\`")
