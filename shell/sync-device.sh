@@ -20,7 +20,7 @@ if [[ "$device" =~ ^(guacamole|guacamoleb|hotdog|hotdogb)$ ]]; then
     toSync+=" hardware/oplus"
 fi
 # Xiaomi Hardware
-if [[ "$device" =~ ^(beryllium|laurel_sprout|miatoll|perseus|polaris|scorpio|veux|vince)$ ]]; then
+if [[ "$device" =~ ^(beryllium|laurel_sprout|miatoll|perseus|polaris|scorpio|veux|vince|sweet)$ ]]; then
     toSync+=" hardware/xiaomi"
 fi
 
@@ -131,6 +131,18 @@ if [[ "$device" == "vince" ]]; then
     toSync+=" device/xiaomi/vince"
     toSync+=" vendor/xiaomi/vince"
     toSync+=" kernel/xiaomi/msm8953"
+fi
+
+
+# NOT MY DEVICES 
+# sweet is therealmharc's device
+
+if [[ "$device" == "sweet" ]]; then
+    toSync+=" device/xiaomi/sweet device/xiaomi/sm6150-common device/xiaomi/miuicamera-sweet"
+    toSync+=" vendor/xiaomi/sweet vendor/xiaomi/sm6150-common vendor/xiaomi/miuicamera-sweet"
+    toSync+=" kernel/xiaomi/sm6150"
+    # Special package
+    toSync+=" packages/apps/ViPER4AndroidFX"
 fi
 
 source build/envsetup.sh &&
