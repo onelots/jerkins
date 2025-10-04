@@ -6,6 +6,14 @@ device=$1
 target=$(tail -n 1 vendor/lineage/vars/aosp_target_release | cut -d "=" -f 2)
 toSync=""
 
+# First, we lunch the device, else... Have you ever tried to sync some air ? :D
+# (We need to wait for lunch to do its thing you know)
+
+source build/envsetup.sh &&
+lunch lineage_$device-$target-userdebug
+
+# Then the repos 
+
 # Taking care of OEM repos 
 # Google hardware
 if [[ "$device" =~ ^(blueline|bonito|crosshatch|sargo)$ ]]; then
@@ -145,6 +153,4 @@ if [[ "$device" == "sweet" ]]; then
     toSync+=" packages/apps/ViPER4AndroidFX"
 fi
 
-source build/envsetup.sh &&
-lunch lineage_$device-$target-userdebug &&
 repo sync $toSync
