@@ -42,6 +42,15 @@ def call(Map config = [:]) {
                     }
                 }
             }
+            stage('Nuke necessary repos') { // Sometimes, a device messes up with an other. To avoid the hassle of rewriting, some parts, let's just nuke the said device... Anyway it's not that painful
+                steps {
+                    dir(sourceDir) {
+                        sh '''
+                        /media/sauces/scripts/shell/reponuke.sh ${JOB_BASE_NAME}
+                        '''
+                    }
+                }
+            }
             stage('Build ROM') {
                 steps {
                     dir(sourceDir) {
