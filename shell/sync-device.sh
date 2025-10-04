@@ -12,6 +12,8 @@ toSync=""
 source build/envsetup.sh &&
 lunch lineage_$device-$target-userdebug
 
+echo "Syncing dependencies for $device"
+
 # Then the repos 
 
 # Taking care of OEM repos 
