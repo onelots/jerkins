@@ -17,5 +17,5 @@ if [[ "$device" == "scorpio" ]]; then
     tonuke+=" kernel/xiaomi/msm8953"
 fi
 
-echo "Those repos will be remove : $tonuke"
+echo "Those repos will be removed : $tonuke"
 rm -rf $tonuke
