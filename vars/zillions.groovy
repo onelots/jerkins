@@ -33,20 +33,20 @@ def call(Map config = [:]) {
                     }
                 }
             }
-            stage('Sync device trees') {
-                steps {
-                    dir(sourceDir) {
-                        sh '''
-                        /media/sauces/scripts/shell/sync-device.sh ${JOB_BASE_NAME}
-                        '''
-                    }
-                }
-            }
             stage('Nuke necessary repos') { // Sometimes, a device messes up with an other. To avoid the hassle of rewriting, some parts, let's just nuke the said device... Anyway it's not that painful
                 steps {
                     dir(sourceDir) {
                         sh '''
                         /media/sauces/scripts/shell/reponuke.sh ${JOB_BASE_NAME}
+                        '''
+                    }
+                }
+            }
+            stage('Sync device trees') {
+                steps {
+                    dir(sourceDir) {
+                        sh '''
+                        /media/sauces/scripts/shell/sync-device.sh ${JOB_BASE_NAME}
                         '''
                     }
                 }
