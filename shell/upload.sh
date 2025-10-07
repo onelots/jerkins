@@ -19,7 +19,40 @@ build_date=$(echo $filename | cut -d "-" -f 3)
 evo_version=$(echo $filename | cut -d "-" -f 5)
 evo_version_official=${evo_version}"-Official" 
 
+ # Identify and upload initial install images
+json="evolution/OTA/builds/$device.json"
+# Extract initial_installation_images from json
+initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
+echo " "
+
 # |------------------------------------------------------------------------------------------------------------------------|
+
+# For testing releases, by definition it's testing.
+# So we didn't push any OTA; hence no json file.
+# So we need to define manually what to upload.
+
+if [ "$json" == "" ]; then
+    echo "Json file not found ! Processing with known base images."
+    if [[ "$device" =~ ^(bonito|sargo)$ ]]; then
+        initial_images="boot"
+    elif [[ "$device" =~ ^(blueline|crosshatch)$ ]]; then
+        initial_images="boot dtbo"
+    elif [[ "$device" =~ ^(cheeseburger|dumpling)$ ]]; then # Oplus recovery only
+        initial_images="recovery"
+    elif [[ "$device" =~ ^(guacamole|guacamoleb)$ ]]; then
+        initial_images="boot vbmeta dtbo"
+    elif [[ "$device" =~ ^(hotdog|hotdogb)$ ]]; then
+        initial_images="vbmeta dtbo recovery"
+    elif [[ "$device" =~ ^(beryllium|perseus|polaris|scorpio|vince|miatoll)$ ]]; then
+        initial_images="recovery"
+    elif [[ "$device" =~ ^(laurel_sprout)$ ]]; then
+        initial_images="boot"
+    elif [[ "$device" =~ ^(veux)$ ]]; then
+        initial_images="boot vendor_boot dtbo"
+    else
+        initial_images=""
+    fi
+fi
 
 # |----------------------------------------------------------|
 # | EVOLUTIONX OFFICIAL RELEASE.                             |
@@ -34,11 +67,6 @@ if [ "$buildType" = "release" ]; then
     rclone copy out/target/product/$device/EvolutionX*.zip cloudflare-onelots:$upload_path -P
     # Upload sha256sum file
     rclone copy out/target/product/$device/EvolutionX*.zip.sha256sum cloudflare-onelots:$upload_path -P
-    # Identify and upload initial install images
-    json="evolution/OTA/builds/$device.json"
-    # Extract initial_installation_images from json
-    initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
-    echo " "
     # Upload found images
     for image in $initial_images; do
         echo "Uploading $image..."
