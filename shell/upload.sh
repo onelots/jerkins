@@ -19,19 +19,14 @@ build_date=$(echo $filename | cut -d "-" -f 3)
 evo_version=$(echo $filename | cut -d "-" -f 5)
 evo_version_official=${evo_version}"-Official" 
 
- # Identify and upload initial install images
+# Identify and upload initial install images
 json="evolution/OTA/builds/$device.json"
-# Extract initial_installation_images from json
-initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
-echo " "
-
-# |------------------------------------------------------------------------------------------------------------------------|
-
-# For testing releases, by definition it's testing.
-# So we didn't push any OTA; hence no json file.
-# So we need to define manually what to upload.
-
-if [ "$json" == "" ]; then
+if [ -e "$json" ]; then
+    echo "$json found."
+    # Extract initial_installation_images from json
+    initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
+    echo " "
+else
     echo "Json file not found ! Processing with known base images."
     if [[ "$device" =~ ^(bonito|sargo)$ ]]; then
         initial_images="boot"
@@ -53,6 +48,12 @@ if [ "$json" == "" ]; then
         initial_images=""
     fi
 fi
+echo "Initial images to upload: $initial_images"
+# |------------------------------------------------------------------------------------------------------------------------|
+
+# For testing releases, by definition it's testing.
+# So we didn't push any OTA; hence no json file.
+# So we need to define manually what to upload.
 
 # |----------------------------------------------------------|
 # | EVOLUTIONX OFFICIAL RELEASE.                             |
