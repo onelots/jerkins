@@ -103,11 +103,7 @@ elif [ "$buildType" = "testing" ]; then
     # Upload Json
     rclone copy out/target/product/$device/$device.json cloudflare-onelots:evolution-x/testers/jsons -P      
     echo " "
-    # Identify and upload initial install images
-    json="evolution/OTA/builds/$device.json"
-    # Extract initial_installation_images from json
-    initial_images=$(jq -r '.response[0].initial_installation_images[]' "$json")
-    # Upload found images
+    # Upload found images, defined earlier in the script
     for image in $initial_images; do
         echo "Uploading $image..."
         rclone copy out/target/product/$device/$image.img cloudflare-onelots:$testers_path -P
