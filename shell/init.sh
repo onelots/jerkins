@@ -14,3 +14,8 @@ fi
 source build/envsetup.sh
 repo init -u https://github.com/Evolution-X/manifest -b "$branch" --git-lfs
 repo sync -c -j"$(nproc --all)" --force-sync --no-clone-bundle --no-tags
+
+echo " "
+echo "----------------------------------------------------"
+echo "Repo synced for EvolutionX : $evoVersion version"
+echo "----------------------------------------------------"

@@ -36,6 +36,11 @@ if [[ -e "$local_manifest" ]]; then
   tonuke+="$local_manifest"
 fi
 
+echo " "
+echo " "
+echo " ----------------------------------------------------------"
 echo "Those repos will be removed: $tonuke"
+echo " ----------------------------------------------------------"
+echo " "
 nuke $tonuke
 rm -rf $tonuke

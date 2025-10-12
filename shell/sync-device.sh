@@ -168,4 +168,11 @@ if [[ "$device" == "sweet" ]]; then
     toSync+=" packages/apps/ViPER4AndroidFX"
 fi
 
+echo " "
+echo " "
+echo "------------------------------------------------------------------"
+echo "Syncing those repos for $device : $toSync"
+echo "------------------------------------------------------------------"
+echo " "
+
 repo sync $toSync
