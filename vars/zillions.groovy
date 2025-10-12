@@ -48,6 +48,12 @@ def call(Map config = [:]) {
                             git reset --hard origin/main
                             git clean -ffd
                         fi
+
+                        echo " "
+                        echo " "
+                        echo "-----------------------------------------------------"
+                        echo "Scripts are up to date !"
+                        echo "-----------------------------------------------------"
                         '''
                     }
                 }
