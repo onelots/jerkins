@@ -44,6 +44,9 @@ else
         initial_images="boot"
     elif [[ "$device" =~ ^(veux)$ ]]; then
         initial_images="boot vendor_boot dtbo"
+# Now testing devices
+    elif [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
+        initial_images="recovery"
     else
         initial_images=""
     fi
