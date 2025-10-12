@@ -33,6 +33,25 @@ def call(Map config = [:]) {
                     }
                 }
             }
+            stage('Get necessary scripts') { // Allow us to NOT ALWAYS MANUALLY UPDATE THE SCRIPTS RHAAAA
+                steps {
+                    dir("/media/sauces") {
+                        sh '''
+                        REPO_URL="https://github.com/onelots/jerkins"
+                        DIR="scripts"
+
+                        if [ ! -d "$DIR/.git" ]; then
+                            git clone --depth 1 -b main "$REPO_URL" "$DIR"
+                        else
+                            cd "$DIR"
+                            git fetch origin main
+                            git reset --hard origin/main
+                            git clean -ffd
+                        fi
+                        '''
+                    }
+                }
+            }
             stage('Nuke necessary repos') { // Sometimes, a device messes up with an other. To avoid the hassle of rewriting, some parts, let's just nuke the said device... Anyway it's not that painful
                 steps {
                     dir(sourceDir) {
