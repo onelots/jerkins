@@ -29,6 +29,13 @@ if [[ "$device" == "scorpio" ]]; then
   tonuke+=" kernel/xiaomi/msm8953"
 fi
 
+# Introducing local_manifest devices :)
+local_manifest=" .repo/local_manifests/${device}.xml"
+
+if [[ -e "$local_manifest" ]]; then
+  tonuke+="$local_manifest"
+fi
+
 echo "Those repos will be removed: $tonuke"
 nuke $tonuke
 rm -rf $tonuke

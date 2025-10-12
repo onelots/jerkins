@@ -9,6 +9,11 @@ toSync=""
 # First, we lunch the device, else... Have you ever tried to sync some air ? :D
 # (We need to wait for lunch to do its thing you know)
 
+# Downloading the local manifest for a testing device (else it's really meh)
+if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone) ]]; then
+    wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/main/manifests/$device.xml"
+fi
+
 source build/envsetup.sh &&
 lunch lineage_$device-$target-userdebug
 
@@ -30,7 +35,13 @@ if [[ "$device" =~ ^(guacamole|guacamoleb|hotdog|hotdogb)$ ]]; then
     toSync+=" hardware/oplus"
 fi
 # Xiaomi Hardware
+# Official devices
 if [[ "$device" =~ ^(beryllium|laurel_sprout|miatoll|perseus|polaris|scorpio|veux|vince|sweet)$ ]]; then
+    toSync+=" hardware/xiaomi"
+fi
+
+# Testing devices
+if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone)$ ]]; then
     toSync+=" hardware/xiaomi"
 fi
 
@@ -142,6 +153,8 @@ if [[ "$device" == "vince" ]]; then
     toSync+=" vendor/xiaomi/vince"
     toSync+=" kernel/xiaomi/msm8953"
 fi
+
+# Unofficial devices : Will be added when I will need it (I'm still lazy you know :D )
 
 
 # NOT MY DEVICES 
