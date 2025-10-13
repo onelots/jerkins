@@ -25,6 +25,15 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
         toSync+=" kernel/samsung/exynos9810"
         echo "will be synced : $toSync"
     fi
+
+    # ginkgo
+    if [[ "$device" =~ ^(ginkgo)$ ]]; then
+        toSync+=" hardware/xiaomi"
+        toSync+=" device/xiaomi/$device device/xiaomi/sm6125-common"
+        toSync+=" vendor/xiaomi/$device vendor/xiaomi/sm6125-common"
+        toSync+=" kernel/xiaomi/sm6125"
+        echo "will be synced : $toSync"
+    fi
     repo sync $toSync
 fi
 

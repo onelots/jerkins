@@ -47,6 +47,8 @@ else
 # Now testing devices
     elif [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
         initial_images="recovery"
+    elif [[ "$device" =~ ^(ginkgo)$ ]]; then
+        initial_images="recovery"
     else
         initial_images=""
     fi
