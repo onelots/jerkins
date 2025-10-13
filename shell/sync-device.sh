@@ -16,7 +16,7 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
     # Samsung Hardware
     if [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
         toSync+=" hardware/samsung "
-        toSync+=" samsung_slsi-linaro/config samsung_slsi-linaro/exynos samsung_slsi-linaro/exynos5 samsung_slsi-linaro/graphics samsung_slsi-linaro/interfaces samsung_slsi-linaro/openmax device/samsung_slsi/sepolicy"
+        toSync+=" hardware/samsung_slsi-linaro/config hardware/samsung_slsi-linaro/exynos hardware/samsung_slsi-linaro/exynos5 hardware/samsung_slsi-linaro/graphics hardware/samsung_slsi-linaro/interfaces hardware/samsung_slsi-linaro/openmax device/samsung_slsi/sepolicy"
     fi
     # trees
     if [[ "$device" =~ ^(starlte|crownlte|star2lte)$ ]]; then
