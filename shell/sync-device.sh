@@ -25,6 +25,7 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
         toSync+=" kernel/samsung/exynos9810"
         echo "will be synced : $toSync"
     fi
+    repo sync $toSync
 fi
 
 source build/envsetup.sh &&
