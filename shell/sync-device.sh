@@ -15,7 +15,7 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
     echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
     # Samsung Hardware
     if [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
-        toSync+=" hardware/samsung "
+        toSync+=" hardware/samsung hardware/samsung/nfc"
         toSync+=" hardware/samsung_slsi-linaro/config hardware/samsung_slsi-linaro/exynos hardware/samsung_slsi-linaro/exynos5 hardware/samsung_slsi-linaro/graphics hardware/samsung_slsi-linaro/interfaces hardware/samsung_slsi-linaro/openmax device/samsung_slsi/sepolicy"
     fi
     # trees
