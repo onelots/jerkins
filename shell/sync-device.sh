@@ -13,6 +13,18 @@ toSync=""
 if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
     wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/main/manifests/$device.xml"
     echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
+    # Samsung Hardware
+    if [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
+        toSync+=" hardware/samsung "
+        toSync+=" samsung_slsi-linaro/config samsung_slsi-linaro/exynos samsung_slsi-linaro/exynos5 samsung_slsi-linaro/graphics samsung_slsi-linaro/interfaces samsung_slsi-linaro/openmax device/samsung_slsi/sepolicy"
+    fi
+    # trees
+    if [[ "$device" =~ ^(starlte|crownlte|star2lte)$ ]]; then
+        toSync+=" device/samsung/$device device/samsung/exynos9810-common"
+        toSync+=" vendor/samsung/$device vendor/samsung/exynos9810-common"
+        toSync+=" kernel/samsung/exynos9810"
+        echo "will be synced : $toSync"
+    fi
 fi
 
 source build/envsetup.sh &&
@@ -44,12 +56,6 @@ fi
 # Testing devices
 if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone)$ ]]; then
     toSync+=" hardware/xiaomi"
-fi
-
-# Samsung Hardware
-if [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
-    toSync+=" hardware/samsung "
-    toSync+=" samsung_slsi-linaro/config samsung_slsi-linaro/exynos samsung_slsi-linaro/exynos5 samsung_slsi-linaro/graphics samsung_slsi-linaro/interfaces samsung_slsi-linaro/openmax device/samsung_slsi/sepolicy"
 fi
 
 # Now device specific repos
@@ -162,12 +168,6 @@ if [[ "$device" == "vince" ]]; then
 fi
 
 # Unofficial devices : Will be added when I will need it (I'm still lazy you know :D )
-
-if [[ "$device" =~ ^(starlte|crownlte|star2lte)$ ]]; then
-    toSync+=" device/samsung/$device device/samsung/exynos9810-common"
-    toSync+=" vendor/samsung/$device vendor/samsung/exynos9810-common"
-    toSync+=" kernel/samsung/exynos9810"
-fi
 
 # NOT MY DEVICES 
 # sweet is therealmharc's device
