@@ -29,10 +29,11 @@ if [[ "$device" == "scorpio" ]]; then
   tonuke+=" kernel/xiaomi/msm8953"
 fi
 
-# Introducing local_manifest devices :)
-local_manifest=" .repo/local_manifests/${device}.xml"
-
-if [[ -e "$local_manifest" ]]; then
+# If testing device : nuke all local manifests (else it's a mess)
+if [[ "$device" =~ ^(starlte|crownlte|star2lte)$ ]]; then
+  local_manifest+=" .repo/local_manifests/starlte.xml"
+  local_manifest+=" .repo/local_manifests/star2lte.xml"
+  local_manifest+=" .repo/local_manifests/crownlte.xml"
   tonuke+="$local_manifest"
 fi
 
