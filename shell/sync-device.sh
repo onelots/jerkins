@@ -12,6 +12,7 @@ toSync=""
 # Downloading the local manifest for a testing device (else it's really meh)
 if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
     wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/main/manifests/$device.xml"
+    echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
 fi
 
 source build/envsetup.sh &&
