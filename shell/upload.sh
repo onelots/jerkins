@@ -49,6 +49,8 @@ else
         initial_images="recovery"
     elif [[ "$device" =~ ^(ginkgo)$ ]]; then
         initial_images="recovery"
+    elif [[ "$device" == "tissot" ]]; then
+        initial_images="boot"
     else
         initial_images=""
     fi

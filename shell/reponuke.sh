@@ -18,15 +18,21 @@ device="${1:?}"
 tonuke=""
 
 if [[ "$device" == "vince" ]]; then
-  tonuke+=" device/xiaomi/msm8996-common device/xiaomi/scorpio"
-  tonuke+=" vendor/xiaomi/msm8996-common vendor/xiaomi/scorpio"
-  tonuke+=" kernel/xiaomi/msm8996"
+  tonuke+=" device/xiaomi/msm8996-common device/xiaomi/scorpio device/xiaomi/tissot device/xiaomi/msm8953-common"
+  tonuke+=" vendor/xiaomi/msm8996-common vendor/xiaomi/scorpio vendor/xiaomi/tissot vendor/xiaomi/msm8953-common"
+  tonuke+=" kernel/xiaomi/msm8996 kernel/xiaomi/msm8953"
 fi
 
 if [[ "$device" == "scorpio" ]]; then
-  tonuke+=" device/xiaomi/vince"
-  tonuke+=" vendor/xiaomi/vince"
-  tonuke+=" kernel/xiaomi/msm8953"
+  tonuke+=" device/xiaomi/vince device/xiaomi/msm8953-common device/xiaomi/tissot"
+  tonuke+=" vendor/xiaomi/vince vendor/xiaomi/msm8953-common vendor/xiaomi/tissot"
+  tonuke+=" kernel/xiaomi/vince kernel/xiaomi/msm8953"
+fi
+
+if [[ "$device" == "tissot" ]]; then
+  tonuke+=" device/xiaomi/vince device/xiaomi/scorpio device/xiaomi/msm8996-common"
+  tonuke+=" vendor/xiaomi/vince vendor/xiaomi/scorpio vendor/xiaomi/msm8996-common"
+  tonuke+=" kernel/xiaomi/vince kernel/xiaomi/msm8996"
 fi
 
 # If testing device : nuke all local manifests (else it's a mess)

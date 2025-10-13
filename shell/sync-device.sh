@@ -177,6 +177,12 @@ if [[ "$device" == "vince" ]]; then
     toSync+=" kernel/xiaomi/msm8953"
 fi
 
+if [[ "$device" == "tissot" ]]; then
+    toSync+=" device/xiaomi/tissot device/xiaomi/msm8953-common"
+    toSync+=" vendor/xiaomi/tissot vendor/xiaomi/msm8953-common"
+    toSync+=" kernel/xiaomi/msm8953"
+fi
+
 # Unofficial devices : Will be added when I will need it (I'm still lazy you know :D )
 
 # NOT MY DEVICES 
