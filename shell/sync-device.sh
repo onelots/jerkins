@@ -34,13 +34,13 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
         toSync+=" kernel/xiaomi/sm6125"
         echo "will be synced : $toSync"
     fi
-    repo sync $toSync
     if [[ "$device" =~ ^(fleur)$ ]]; then
         toSync=" hardware/xiaomi hardware/mediatek"
         toSync+=" device/xiaomi/fleur device/mediatek/sepolicy_vndr"
         toSync+=" vendor/xiaomi/fleur vendor/mediatek/ims"
         toSync+=" kernel/xiaomi/mt6781"
     fi
+    repo sync --force-sync $toSync
 fi
 
 source build/envsetup.sh &&
