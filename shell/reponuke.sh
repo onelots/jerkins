@@ -41,6 +41,7 @@ if [[ "$device" =~ ^(starlte|crownlte|star2lte|ginkgo|tissot|fleur)$ ]]; then
   local_manifest+=" .repo/local_manifests/star2lte.xml"
   local_manifest+=" .repo/local_manifests/crownlte.xml"
   local_manifest+=" .repo/local_manifests/ginkgo.xml"
+  local_manifest+=" .repo/local_manifests/fleur.xml"
   tonuke+="$local_manifest"
 fi
 

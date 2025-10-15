@@ -38,7 +38,7 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
     if [[ "$device" =~ ^(fleur)$ ]]; then
         toSync=" hardware/xiaomi hardware/mediatek"
         toSync+=" device/xiaomi/fleur device/mediatek/sepolicy_vndr"
-        toSync+=" vendor/xiaomi/fleur"
+        toSync+=" vendor/xiaomi/fleur vendor/mediatek/ims"
         toSync+=" kernel/xiaomi/mt6781"
     fi
 fi
