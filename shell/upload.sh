@@ -51,6 +51,8 @@ else
         initial_images="recovery"
     elif [[ "$device" == "tissot" ]]; then
         initial_images="boot"
+    elif [[ "$device" == "fleur" ]]; then
+        initial_images="boot dtbo vbmeta"
     else
         initial_images=""
     fi

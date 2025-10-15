@@ -36,7 +36,7 @@ if [[ "$device" == "tissot" ]]; then
 fi
 
 # If testing device : nuke all local manifests (else it's a mess)
-if [[ "$device" =~ ^(starlte|crownlte|star2lte|ginkgo)$ ]]; then
+if [[ "$device" =~ ^(starlte|crownlte|star2lte|ginkgo|tissot|fleur)$ ]]; then
   local_manifest+=" .repo/local_manifests/starlte.xml"
   local_manifest+=" .repo/local_manifests/star2lte.xml"
   local_manifest+=" .repo/local_manifests/crownlte.xml"
