@@ -5,13 +5,14 @@ echo $(date +%s) > /tmp/timestamp
 device=$1
 target=$(tail -n 1 vendor/lineage/vars/aosp_target_release | cut -d "=" -f 2)
 toSync=""
+evo_version=$2
 
 # First, we lunch the device, else... Have you ever tried to sync some air ? :D
 # (We need to wait for lunch to do its thing you know)
 
 # Downloading the local manifest for a testing device (else it's really meh)
 if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
-    wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/main/manifests/$device.xml"
+    wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/$evo_version/manifests/$device.xml"
     echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
     # Samsung Hardware
     if [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then

@@ -70,9 +70,16 @@ def call(Map config = [:]) {
             stage('Sync device trees') {
                 steps {
                     dir(sourceDir) {
+                        withEnv(["EVO_VERSION=${evoVersion}"]) {
                         sh '''
-                        /media/sauces/scripts/shell/sync-device.sh ${JOB_BASE_NAME}
+                        if [ "$EVO_VERSION" = "10" ]; then
+                            VERSION="vic"
+                        elif [ "$EVO_VERSION" = "11" ]; then
+                            VERSION="bka"
+                        fi
+                        /media/sauces/scripts/shell/sync-device.sh ${JOB_BASE_NAME} "$VERSION"
                         '''
+                        }
                     }
                 }
             }
