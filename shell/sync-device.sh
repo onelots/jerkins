@@ -210,4 +210,4 @@ echo "Syncing those repos for $device : $toSync"
 echo "------------------------------------------------------------------"
 echo " "
 
-repo sync $toSync
+repo sync --force-sync $toSync
