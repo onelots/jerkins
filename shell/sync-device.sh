@@ -11,7 +11,7 @@ evo_version=$2
 # (We need to wait for lunch to do its thing you know)
 
 # Downloading the local manifest for a testing device (else it's really meh)
-if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
+if [[ "$device" =~ ^(gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
     wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/$evo_version/manifests/$device.xml"
     echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
     # Samsung Hardware
@@ -34,12 +34,6 @@ if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte)
         toSync+=" vendor/xiaomi/$device vendor/xiaomi/sm6125-common"
         toSync+=" kernel/xiaomi/sm6125"
         echo "will be synced : $toSync"
-    fi
-    if [[ "$device" =~ ^(fleur)$ ]]; then
-        toSync=" hardware/xiaomi hardware/mediatek"
-        toSync+=" device/xiaomi/fleur device/mediatek/sepolicy_vndr"
-        toSync+=" vendor/xiaomi/fleur vendor/mediatek/ims"
-        toSync+=" kernel/xiaomi/mt6781"
     fi
     repo sync --force-sync $toSync
 fi
@@ -70,8 +64,12 @@ if [[ "$device" =~ ^(beryllium|laurel_sprout|miatoll|perseus|polaris|scorpio|veu
     toSync+=" hardware/xiaomi"
 fi
 
+if [[ "$device" == "fleur" ]]; then
+    toSync+=" hardware/mediatek"
+fi
+
 # Testing devices
-if [[ "$device" =~ ^(fleur|gauguin|ginkgo|earth|stone)$ ]]; then
+if [[ "$device" =~ ^(gauguin|ginkgo|earth|stone)$ ]]; then
     toSync+=" hardware/xiaomi"
 fi
 
@@ -188,6 +186,13 @@ if [[ "$device" == "tissot" ]]; then
     toSync+=" device/xiaomi/tissot device/xiaomi/msm8953-common"
     toSync+=" vendor/xiaomi/tissot vendor/xiaomi/msm8953-common"
     toSync+=" kernel/xiaomi/msm8953"
+fi
+
+if [[ "$device" =~ ^(fleur)$ ]]; then
+    toSync=" hardware/xiaomi hardware/mediatek"
+    toSync+=" device/xiaomi/fleur device/mediatek/sepolicy_vndr"
+    toSync+=" vendor/xiaomi/fleur vendor/mediatek/ims"
+    toSync+=" kernel/xiaomi/mt6781"
 fi
 
 # Unofficial devices : Will be added when I will need it (I'm still lazy you know :D )

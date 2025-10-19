@@ -40,6 +40,8 @@ else
         initial_images="vbmeta dtbo recovery"
     elif [[ "$device" =~ ^(beryllium|perseus|polaris|scorpio|vince|miatoll)$ ]]; then
         initial_images="recovery"
+    elif [[ "$device" == "fleur" ]]; then
+        initial_images="boot"
     elif [[ "$device" =~ ^(laurel_sprout)$ ]]; then
         initial_images="boot"
     elif [[ "$device" =~ ^(veux)$ ]]; then
@@ -51,8 +53,6 @@ else
         initial_images="recovery"
     elif [[ "$device" == "tissot" ]]; then
         initial_images="boot"
-    elif [[ "$device" == "fleur" ]]; then
-        initial_images="boot dtbo vbmeta"
     else
         initial_images=""
     fi
