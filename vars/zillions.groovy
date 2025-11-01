@@ -67,6 +67,17 @@ def call(Map config = [:]) {
                     }
                 }
             }
+            stage('Prepare build environment for special devices') { // Sometimes, devices (for example OnePlus 5 with 4.14 kernel on Evo 11) need special treatment... Let's prepare the env for them right here.
+                steps {
+                    dir(sourceDir) {
+                        withEnv(["EVO_VERSION=${evoVersion}"]) {
+                        sh '''
+                        /media/sauces/scripts/shell/special_device/prepare.sh ${JOB_BASE_NAME} ${EVO_VERSION}
+                        '''
+                        }
+                    }
+                }
+            }
             stage('Sync device trees') {
                 steps {
                     dir(sourceDir) {
@@ -94,6 +105,17 @@ def call(Map config = [:]) {
                             def artifactPath2 = "evolution/OTA/changelogs/${JOB_BASE_NAME}.txt"
                         
                             archiveArtifacts artifacts: "${artifactPath1},${artifactPath2}", allowEmptyArchive: true                    
+                        }
+                    }
+                }
+            }
+            stage('Cleanup the environment after running a special device') { // Sometimes, devices (for example OnePlus 5 with 4.14 kernel on Evo 11) need special treatment... Let's prepare the env for them right here.
+                steps {
+                    dir(sourceDir) {
+                        withEnv(["EVO_VERSION=${evoVersion}"]) {
+                        sh '''
+                        /media/sauces/scripts/shell/special_device/post-job.sh ${JOB_BASE_NAME} ${EVO_VERSION}
+                        '''
                         }
                     }
                 }
