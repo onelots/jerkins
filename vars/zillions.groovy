@@ -109,17 +109,6 @@ def call(Map config = [:]) {
                     }
                 }
             }
-            stage('Cleanup the environment after running a special device') { // Sometimes, devices (for example OnePlus 5 with 4.14 kernel on Evo 11) need special treatment... Let's prepare the env for them right here.
-                steps {
-                    dir(sourceDir) {
-                        withEnv(["EVO_VERSION=${evoVersion}"]) {
-                        sh '''
-                        /media/sauces/scripts/shell/special_device/post-job.sh ${JOB_BASE_NAME} ${EVO_VERSION}
-                        '''
-                        }
-                    }
-                }
-            }
             stage('Upload Artifacts') {
                 steps {
                     dir(sourceDir) {
@@ -162,6 +151,13 @@ def call(Map config = [:]) {
                     } else {
                         env.UPLOAD_LINK = ''
                         echo "File /tmp/upload_link.txt doesn't exist."
+                    }
+                }
+
+                echo 'Cleanup the environment after running a special device'
+                dir(sourceDir) {
+                withEnv(["EVO_VERSION=${evoVersion}"]) {
+                    sh "/media/sauces/scripts/shell/special_device/post-job.sh  ${env.JOB_BASE_NAME}  ${env.EVO_VERSION}"
                     }
                 }
             }
