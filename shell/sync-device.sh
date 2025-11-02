@@ -57,6 +57,9 @@ fi
 # Oneplus (Oplus) hardware
 if [[ "$device" =~ ^(guacamole|guacamoleb|hotdog|hotdogb)$ ]]; then
     toSync+=" hardware/oplus"
+    if [[ "$evo_version" == "bka" ]]; then
+        toSync+=" hardware/qcom-caf/msm8998-4-14"
+    fi
 fi
 # Xiaomi Hardware
 # Official devices
