@@ -35,6 +35,11 @@ if [[ "$device" == "tissot" ]]; then
   tonuke+=" kernel/xiaomi/vince kernel/xiaomi/msm8996"
 fi
 
+if [[ "$device" == "beryllium" ]]; then
+  tonuke+=" device/xiaomi/camera"
+  tonuke+=" vendor/xiaomi/camera"
+fi
+
 # If testing device : nuke all local manifests (else it's a mess)
 if [[ "$device" =~ ^(starlte|crownlte|star2lte|ginkgo|tissot)$ ]]; then
   local_manifest+=" .repo/local_manifests/starlte.xml"
