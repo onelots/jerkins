@@ -51,12 +51,12 @@ if [[ "$device" =~ ^(blueline|bonito|crosshatch|sargo)$ ]]; then
     toSync+=" packages/apps/ElmyraService device/google/gs-common"
 fi
 # Oneplus hardware
-if [[ "$device" =~ ^(cheeseburger|dumpling)$ ]]; then
-    toSync+=" hardware/oneplus"
-fi
-# Oneplus (Oplus) hardware
 if [[ "$device" =~ ^(guacamole|guacamoleb|hotdog|hotdogb)$ ]]; then
     toSync+=" hardware/oplus"
+fi
+# Oneplus (Oplus) hardware
+if [[ "$device" =~ ^(cheeseburger|dumpling)$ ]]; then
+    toSync+=" hardware/oneplus"
     if [[ "$evo_version" == "bka" ]]; then
         toSync+=" hardware/qcom-caf/msm8998-4-14"
     fi
