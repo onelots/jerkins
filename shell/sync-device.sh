@@ -11,7 +11,7 @@ evo_version=$2
 # (We need to wait for lunch to do its thing you know)
 
 # Downloading the local manifest for a testing device (else it's really meh)
-if [[ "$device" =~ ^(gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; then
+if [[ "$device" =~ ^(gauguin|earth|stone|starlte|star2lte|crownlte) ]]; then
     wget -O ".repo/local_manifests/$device.xml" -q "https://raw.githubusercontent.com/Onelots-Devices-Playground/.github/$evo_version/manifests/$device.xml"
     echo "Local manifest for $device downloaded under .repo/local_manifests/$device.xml"
     # Samsung Hardware
@@ -24,15 +24,6 @@ if [[ "$device" =~ ^(gauguin|ginkgo|earth|stone|starlte|star2lte|crownlte) ]]; t
         toSync+=" device/samsung/$device device/samsung/exynos9810-common"
         toSync+=" vendor/samsung/$device vendor/samsung/exynos9810-common"
         toSync+=" kernel/samsung/exynos9810"
-        echo "will be synced : $toSync"
-    fi
-
-    # ginkgo
-    if [[ "$device" =~ ^(ginkgo)$ ]]; then
-        toSync+=" hardware/xiaomi"
-        toSync+=" device/xiaomi/$device device/xiaomi/sm6125-common"
-        toSync+=" vendor/xiaomi/$device vendor/xiaomi/sm6125-common"
-        toSync+=" kernel/xiaomi/sm6125"
         echo "will be synced : $toSync"
     fi
     repo sync --force-sync $toSync
@@ -63,7 +54,7 @@ if [[ "$device" =~ ^(cheeseburger|dumpling)$ ]]; then
 fi
 # Xiaomi Hardware
 # Official devices
-if [[ "$device" =~ ^(beryllium|laurel_sprout|miatoll|perseus|polaris|scorpio|veux|vince|sweet)$ ]]; then
+if [[ "$device" =~ ^(beryllium|ginkgo|laurel_sprout|miatoll|perseus|polaris|scorpio|veux|vince|sweet)$ ]]; then
     toSync+=" hardware/xiaomi"
 fi
 
@@ -72,7 +63,7 @@ if [[ "$device" == "fleur" ]]; then
 fi
 
 # Testing devices
-if [[ "$device" =~ ^(gauguin|ginkgo|earth|stone)$ ]]; then
+if [[ "$device" =~ ^(gauguin|earth|stone)$ ]]; then
     toSync+=" hardware/xiaomi"
 fi
 
@@ -135,10 +126,16 @@ if [[ "$device" == "hotdogb" ]]; then
     toSync+=" kernel/oneplus/sm8150"
 fi
 
-# Xiaomi Mi A3 (laurel_sprout) // TODO => add ginkgo (redmi note 8T, same soc)
+# Xiaomi Mi A3 (laurel_sprout)
 if [[ "$device" == "laurel_sprout" ]]; then
     toSync+=" device/xiaomi/laurel_sprout device/xiaomi/sm6125-common"
     toSync+=" vendor/xiaomi/laurel_sprout vendor/xiaomi/sm6125-common"
+    toSync+=" kernel/xiaomi/sm6125"
+fi
+
+if [[ "$device" == "ginkgo" ]]; then
+    toSync+=" device/xiaomi/ginkgo device/xiaomi/sm6125-common"
+    toSync+=" vendor/xiaomi/ginkgo vendor/xiaomi/sm6125-common"
     toSync+=" kernel/xiaomi/sm6125"
 fi
 

@@ -44,12 +44,12 @@ else
         initial_images="boot"
     elif [[ "$device" =~ ^(laurel_sprout)$ ]]; then
         initial_images="boot"
+    elif [[ "$device" =~ ^(ginkgo)$ ]]; then
+        initial_images="recovery"
     elif [[ "$device" =~ ^(veux)$ ]]; then
         initial_images="boot vendor_boot dtbo"
 # Now testing devices
     elif [[ "$device" =~ ^(starlte|star2lte|crownlte)$ ]]; then
-        initial_images="recovery"
-    elif [[ "$device" =~ ^(ginkgo)$ ]]; then
         initial_images="recovery"
     elif [[ "$device" == "tissot" ]]; then
         initial_images="boot"
