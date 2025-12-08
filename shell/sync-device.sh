@@ -141,8 +141,8 @@ fi
 
 # Xiaomi Miatoll serie
 if [[ "$device" == "miatoll" ]]; then
-    toSync+=" device/xiaomi/miatoll device/xiaomi/sm6250-common"
-    toSync+=" vendor/xiaomi/miatoll vendor/xiaomi/sm6250-common"
+    toSync+=" device/xiaomi/miatoll device/xiaomi/sm6250-common device/xiaomi/camera"
+    toSync+=" vendor/xiaomi/miatoll vendor/xiaomi/sm6250-common vendor/xiaomi/camera"
     toSync+=" kernel/xiaomi/sm6250"
 fi
 
