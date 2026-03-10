@@ -15,5 +15,4 @@ echo "------------------------------------------"
 
 source build/envsetup.sh &&
 lunch lineage_$device-$target-userdebug &&
-m installclean &&
 m evolution
