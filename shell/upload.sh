@@ -9,7 +9,7 @@ device_capitalized=$(echo $device | sed -E 's/(^|_)([a-z])/\1\u\2/g')
 buildType=$2
 
 # Extract Android Version from json
-filename=$(echo out/target/product/$device/EvolutionX-*.zip)
+filename=$(ls -t out/target/product/$device/EvolutionX-*.zip.sha256sum | head -n 1)
 
 # Extract date (meh how can I use $date without even defining it)
 date=$(echo $filename | cut -d "-" -f 3 | cut -d "." -f 1)
@@ -74,9 +74,9 @@ if [ "$buildType" = "release" ]; then
 
     # Upload main rom
     echo "Uploading main rom..."
-    rclone copy out/target/product/$device/EvolutionX*.zip cloudflare-onelots:$upload_path -P
+    rclone copy $(ls -t out/target/product/$device/EvolutionX-*.zip | head -n 1) cloudflare-onelots:$upload_path -P
     # Upload sha256sum file
-    rclone copy out/target/product/$device/EvolutionX*.zip.sha256sum cloudflare-onelots:$upload_path -P
+    rclone copy $(ls -t out/target/product/$device/EvolutionX-*.zip.sha256sum | head -n 1) cloudflare-onelots:$upload_path -P
     # Upload found images
     for image in $initial_images; do
         echo "Uploading $image..."
@@ -106,9 +106,9 @@ elif [ "$buildType" = "testing" ]; then
     testers_path="evolution-x/testers/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}"
     # Upload main rom
     echo "Uploading main rom..."
-    rclone copy out/target/product/$device/EvolutionX*.zip cloudflare-onelots:$testers_path -P
+    rclone copy $(ls -t out/target/product/$device/EvolutionX-*.zip | head -n 1) cloudflare-onelots:$testers_path -P
     # Upload sha256sum file
-    rclone copy out/target/product/$device/EvolutionX*.zip.sha256sum cloudflare-onelots:$testers_path -P
+    rclone copy $(ls -t out/target/product/$device/EvolutionX-*.zip.sha256sum | head -n 1) cloudflare-onelots:$testers_path -P
     # Upload Json
     rclone copy out/target/product/$device/$device.json cloudflare-onelots:evolution-x/testers/jsons -P      
     echo " "
