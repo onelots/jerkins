@@ -15,4 +15,4 @@ echo "------------------------------------------"
 
 source build/envsetup.sh &&
 lunch lineage_$device-$target-userdebug &&
-m evolution -j70
+m evolution -j48
