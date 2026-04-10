@@ -83,7 +83,7 @@ if [ "$buildType" = "release" ]; then
         rclone copy out/target/product/$device/$image.img cloudflare-onelots:$upload_path -P
         echo " "
     done
-    echo "https://evox.onelots.fr/downloads?path=${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
+    echo "https://downloads.onelots.org/buckets/evolution-x/downloads/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
 
 # |----------------------------------------------------------|
 # | EVOLUTIONX OFFICIAL PART - DO NOT MODIFY ! AT ANY COST ! |
@@ -119,7 +119,7 @@ elif [ "$buildType" = "testing" ]; then
         echo " "
     done
 
-    echo "https://evox.onelots.fr/testers?path=${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
+    echo "https://downloads.onelots.org/buckets/evolution-x/testers/${device_capitalized}/${android_version}/${evo_version_official}/${build_date}" > /tmp/upload_link.txt
 
 fi
 
