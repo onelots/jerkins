@@ -172,6 +172,11 @@ if [[ "$device" == "veux" ]]; then
     toSync+=" vendor/xiaomi/veux vendor/xiaomi/sm6375-common"
     toSync+=" kernel/xiaomi/veux"
 fi
+if [[ "$device" == "gemstone" ]]; then
+    toSync+=" device/xiaomi/gemstone device/xiaomi/sm6375-common"
+    toSync+=" vendor/xiaomi/gemstone vendor/xiaomi/sm6375-common"
+    toSync+=" kernel/xiaomi/gemstone"
+fi
 
 # Xiaomi Vince : msm8953 (legends never die... Tissot incoming !)
 if [[ "$device" == "vince" ]]; then
