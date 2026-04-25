@@ -168,10 +168,8 @@ fi
 
 # Xiaomi Veux : sm6375 (for the win !!)
 if [[ "$device" == "veux" ]]; then
-    toSync+=" device/xiaomi/veux"
-    toSync+=" device/xiaomi/camera"
-    toSync+=" vendor/xiaomi/veux"
-    toSync+=" vendor/xiaomi/camera"
+    toSync+=" device/xiaomi/veux device/xiaomi/sm6375-common"
+    toSync+=" vendor/xiaomi/veux vendor/xiaomi/sm6375-common"
     toSync+=" kernel/xiaomi/veux"
 fi
 
