@@ -168,14 +168,9 @@ fi
 
 # Xiaomi Veux : sm6375 (for the win !!)
 if [[ "$device" == "veux" ]]; then
-    toSync+=" device/xiaomi/veux device/xiaomi/sm6375-common"
-    toSync+=" vendor/xiaomi/veux vendor/xiaomi/sm6375-common"
+    toSync+=" device/xiaomi/veux"
+    toSync+=" vendor/xiaomi/veux"
     toSync+=" kernel/xiaomi/veux"
-fi
-if [[ "$device" == "gemstone" ]]; then
-    toSync+=" device/xiaomi/gemstone device/xiaomi/sm6375-common"
-    toSync+=" vendor/xiaomi/gemstone vendor/xiaomi/sm6375-common"
-    toSync+=" kernel/xiaomi/gemstone"
 fi
 
 # Xiaomi Vince : msm8953 (legends never die... Tissot incoming !)
