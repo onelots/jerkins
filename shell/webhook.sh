@@ -4,7 +4,7 @@ set -euo pipefail
 # ---------------------------
 # Defaults
 # ---------------------------
-AVATAR_URL="https://i0.wp.com/theithollow.com/wp-content/uploads/2016/04/jenkins.png"
+AVATAR_URL="https://raw.githubusercontent.com/onelots/jerkins/main/imgs/bot.png"
 FOOTER_ICON="https://styles.redditmedia.com/t5_2385xr/styles/communityIcon_f066t3qkm4c71.png"
 FOOTER_TEXT="Build launched by"
 COLOR_SUCCESS=3066993    
