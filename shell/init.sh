@@ -22,6 +22,34 @@ rm -rf bin/bazel-remote
 wget https://github.com/buchgr/bazel-remote/releases/download/v2.6.1/bazel-remote-2.6.1-linux-amd64 -O bin/bazel-remote
 chmod +x bin/bazel-remote
 
+echo " "
+echo "----------------------------------------------------"
+echo "Write systemd service if not existing yet"
+echo "----------------------------------------------------"
+
+SERVICE_FILE="$HOME/.config/systemd/user/bazel-remote.service"
+
+if [ ! -f "$SERVICE_FILE" ]; then
+    mkdir -p "$(dirname "$SERVICE_FILE")"
+    cat > "$SERVICE_FILE" << 'EOF'
+[Unit]
+Description=bazel-remote
+
+[Service]
+Type=idle
+Restart=on-failure
+RestartSec=5s
+Environment=BAZEL_REMOTE_DIR=.bazel-remote
+Environment=BAZEL_REMOTE_MAX_SIZE=50
+Environment=BAZEL_REMOTE_ZSTD_IMPLEMENTATION=cgo
+Environment=BAZEL_REMOTE_HTTP_ADDRESS=127.0.0.1:9091
+Environment=BAZEL_REMOTE_GRPC_ADDRESS=127.0.0.1:9092
+ExecStart=bin/bazel-remote
+EOF
+    systemctl --user daemon-reload
+    systemctl --user enable --now bazel-remote
+fi
+
 echo "----------------------------------------------------"
 echo "bazel-remote initialized, syncing EvolutionX"
 echo "----------------------------------------------------"
