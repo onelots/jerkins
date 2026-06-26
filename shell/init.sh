@@ -6,6 +6,8 @@ if [[ "$evoVersion" == "10" ]]; then
     branch="vic"
 elif [[ "$evoVersion" == "11" ]]; then
     branch="bka"
+elif [[ "$evoVersion" == "12" ]]; then
+    branch="cnb"
 else
     echo "Usage: $0 10|11"
     exit 1
