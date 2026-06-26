@@ -1,6 +1,7 @@
 #!/bin/bash
 
 evoVersion="$1"
+BAZEL_REMOTE_BIN="$HOME/bin/bazel-remote"
 
 if [[ "$evoVersion" == "10" ]]; then
     branch="vic"
@@ -18,9 +19,9 @@ echo "----------------------------------------------------"
 echo "Pull Bazel-remote from github releases"
 echo "----------------------------------------------------"
 
-if [ ! -f "bin/bazel-remote" ]; then
-    wget "https://github.com/buchgr/bazel-remote/releases/download/v2.6.1/bazel-remote-2.6.1-linux-amd64" -O bin/bazel-remote
-    chmod +x bin/bazel-remote
+if [ ! -f "$BAZEL_REMOTE_BIN" ]; then
+    wget "https://github.com/buchgr/bazel-remote/releases/download/v2.6.1/bazel-remote-2.6.1-linux-amd64" -O "$BAZEL_REMOTE_BIN"
+    chmod +x "$BAZEL_REMOTE_BIN"
 fi
 
 echo " "
@@ -40,12 +41,12 @@ Description=bazel-remote
 Type=idle
 Restart=on-failure
 RestartSec=5s
-Environment=BAZEL_REMOTE_DIR=.bazel-remote
+Environment=BAZEL_REMOTE_DIR=$HOME/.bazel-remote
 Environment=BAZEL_REMOTE_MAX_SIZE=50
 Environment=BAZEL_REMOTE_ZSTD_IMPLEMENTATION=cgo
 Environment=BAZEL_REMOTE_HTTP_ADDRESS=127.0.0.1:9091
 Environment=BAZEL_REMOTE_GRPC_ADDRESS=127.0.0.1:9092
-ExecStart=bin/bazel-remote
+ExecStart=$HOME/bin/bazel-remote
 EOF
     systemctl --user daemon-reload
     systemctl --user enable --now bazel-remote
