@@ -20,6 +20,7 @@ echo "Pull Bazel-remote from github releases"
 echo "----------------------------------------------------"
 
 if [ ! -f "$BAZEL_REMOTE_BIN" ]; then
+    mkdir -p "$HOME/bin"
     wget "https://github.com/buchgr/bazel-remote/releases/download/v2.6.1/bazel-remote-2.6.1-linux-amd64" -O "$BAZEL_REMOTE_BIN"
     chmod +x "$BAZEL_REMOTE_BIN"
 fi
